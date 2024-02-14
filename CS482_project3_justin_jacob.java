@@ -27,4 +27,36 @@ public class CS482_project3_justin_jacob {
         (byte) 0x6B, (byte) 0xDE, (byte) 0xE9, (byte) 0x86, (byte) 0xCA, (byte) 0xFF,
         (byte) 0x6C, (byte) 0x75, (byte) 0x07, (byte) 0x85, (byte) 0x1E};
 
+
+    public static void main(String[] args) {
+
+    }
+
+    /**
+     * 
+     * @param cipherText recieved ciphertext in ascii bytes
+     * @param inkey is symmetric key
+     */
+    private void decrypt(byte[] cipherText, byte[] inkey) {
+        //
+			// If you receive the ciphertext, assuming that you have the same symmetric key, how will you decrypt?
+			// Below, you only have inKey and cipherText
+			//
+			System.out.println (System.getProperty ("line.separator") + "Decrypting ......");
+            Object decryptRoundKeys = Rijndael_Algorithm.makeKey (Rijndael_Algorithm.DECRYPT_MODE, inKey); // 
+    int numOfCiphertextBlocks = cipherText.length / 16 - 1; // Each AES block has 16 bytes and we need to exclude the IV
+    byte[] cleartextBlocks = new byte[numOfCiphertextBlocks * 16];
+
+    byte[] receivedIV = new byte[16];
+    for (int i = 0; i < 16; i++) receivedIV[i] = cipherText[i];
+    byte[] currentDecryptionBlock = new byte[16];
+
+    for (int i=0; i < numOfCiphertextBlocks; i++) {
+        for (int j=0; j < 16; j++) currentDecryptionBlock [j] = cipherText[(i+1)*16 + j]; // Note that the first block is the IV
+
+        byte[] thisDecryptedBlock = Rijndael_Algorithm.blockDecrypt2 (currentDecryptionBlock, 0, decryptRoundKeys);
+    
+        for (int j=0; j < 16; j++) cleartextBlocks[i*16+j] =  (byte) (thisDecryptedBlock[j] ^ cipherText[i*16 + j]);
+    }
+    }
 }
