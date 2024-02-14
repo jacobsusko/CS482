@@ -6,6 +6,9 @@
  */
 
 public class CS482_project3_justin_jacob {
+
+    // Not full key is known only partial key is known (3.4 Background story)
+
     private byte[] iv = {(byte) 0xC1, (byte) 0x77, (byte) 0x28, (byte) 0xA9, 
         (byte) 0x47, (byte) 0xCC, (byte) 0xC9, (byte) 0xEE, (byte) 0x21, 
         (byte) 0xB4, (byte) 0xEA, (byte) 0xED, (byte) 0x9C, (byte) 0x62, 
