@@ -38,7 +38,7 @@ public class CS482_project3_justin_jacob {
 
 
     public static void main(String[] args) {
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < 16; i++) {  // 16 might need to get changed to 255 because each byte could at most be 0xff
             knownKeyPart[0] = (byte) i;
             for (int j = 0; j < 16; j++) {
                 knownKeyPart[1] = (byte) j;
