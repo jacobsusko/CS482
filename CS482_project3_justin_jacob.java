@@ -1,4 +1,5 @@
 import java.math.BigInteger;
+import java.security.InvalidKeyException;
 /**
  * @author Jacob Susko
  * @author Justin Lacombe
@@ -12,7 +13,7 @@ public class CS482_project3_justin_jacob {
     // Need to figure out how to find the key
 
 
-    private String val = "00000000000000000000000000000000011000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011";
+    private static String val = "00000000000000000000000000000000011000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011";
     private static byte[] knownKeyPart = new BigInteger(val, 2).toByteArray(); // 0 - 32 index are unknown and can be random
 
     private static byte[] iv = {(byte) 0xC1, (byte) 0x77, (byte) 0x28, (byte) 0xA9, 
@@ -145,28 +146,29 @@ public class CS482_project3_justin_jacob {
     /**
      * 
      * @param cipherText recieved ciphertext in ascii bytes
-     * @param inkey is symmetric key
+     * @param inKey is symmetric key
+     * @throws InvalidKeyException 
      */
-    private void decrypt(byte[] cipherText, byte[] inkey) {
+    private void decrypt(byte[] cipherText, byte[] inKey) throws InvalidKeyException {
         //
 			// If you receive the ciphertext, assuming that you have the same symmetric key, how will you decrypt?
 			// Below, you only have inKey and cipherText
 			//
-			System.out.println (System.getProperty ("line.separator") + "Decrypting ......");
-            Object decryptRoundKeys = Rijndael_Algorithm.makeKey (Rijndael_Algorithm.DECRYPT_MODE, inKey); // 
-    int numOfCiphertextBlocks = cipherText.length / 16 - 1; // Each AES block has 16 bytes and we need to exclude the IV
-    byte[] cleartextBlocks = new byte[numOfCiphertextBlocks * 16];
+		System.out.println (System.getProperty ("line.separator") + "Decrypting ......");
+        Object decryptRoundKeys = Rijndael_Algorithm.makeKey (Rijndael_Algorithm.DECRYPT_MODE, inKey); // 
+        int numOfCiphertextBlocks = cipherText.length / 16 - 1; // Each AES block has 16 bytes and we need to exclude the IV
+        byte[] cleartextBlocks = new byte[numOfCiphertextBlocks * 16];
 
-    byte[] receivedIV = new byte[16];
-    for (int i = 0; i < 16; i++) receivedIV[i] = cipherText[i];
-    byte[] currentDecryptionBlock = new byte[16];
+        byte[] receivedIV = new byte[16];
+        for (int i = 0; i < 16; i++) receivedIV[i] = cipherText[i];
+        byte[] currentDecryptionBlock = new byte[16];
 
-    for (int i=0; i < numOfCiphertextBlocks; i++) {
-        for (int j=0; j < 16; j++) currentDecryptionBlock [j] = cipherText[(i+1)*16 + j]; // Note that the first block is the IV
+        for (int i=0; i < numOfCiphertextBlocks; i++) {
+            for (int j=0; j < 16; j++) currentDecryptionBlock [j] = cipherText[(i+1)*16 + j]; // Note that the first block is the IV
 
-        byte[] thisDecryptedBlock = Rijndael_Algorithm.blockDecrypt2 (currentDecryptionBlock, 0, decryptRoundKeys);
+            byte[] thisDecryptedBlock = Rijndael_Algorithm.blockDecrypt2 (currentDecryptionBlock, 0, decryptRoundKeys);
     
-        for (int j=0; j < 16; j++) cleartextBlocks[i*16+j] =  (byte) (thisDecryptedBlock[j] ^ cipherText[i*16 + j]);
-    }
+            for (int j=0; j < 16; j++) cleartextBlocks[i*16+j] =  (byte) (thisDecryptedBlock[j] ^ cipherText[i*16 + j]);
+        }
     }
 }
