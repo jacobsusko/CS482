@@ -6,7 +6,7 @@ import java.security.InvalidKeyException;
  * @date 2/13/2024
  */
 
-public class CS482_project3_justin_jacob {
+public class checker {
 
     // Not full key is known only partial key is known (3.4 Background story)
     // possibiliy iterate through all possible symmertric keys given what we know 16^33 for number of possibilities
@@ -40,40 +40,34 @@ public class CS482_project3_justin_jacob {
         (byte) 0x6B, (byte) 0xDE, (byte) 0xE9, (byte) 0x86, (byte) 0xCA, (byte) 0xFF,
         (byte) 0x6C, (byte) 0x75, (byte) 0x07, (byte) 0x85, (byte) 0x1E};
 
-    private static byte[] cipherText = {(byte) 0xC1, (byte) 0x77, (byte) 0x28, (byte) 0xA9, 
-        (byte) 0x47, (byte) 0xCC, (byte) 0xC9, (byte) 0xEE, (byte) 0x21, 
-        (byte) 0xB4, (byte) 0xEA, (byte) 0xED, (byte) 0x9C, (byte) 0x62, 
-        (byte) 0xC8, (byte) 0x88, (byte) 0x62, (byte) 0xFD, (byte) 0x8D, (byte) 0x38, (byte) 0x8D,
-        (byte) 0x65, (byte) 0x83, (byte) 0x9F, (byte) 0x79, (byte) 0xE8, (byte) 0xA9,
-        (byte) 0x38, (byte) 0x2B, (byte) 0x0B, (byte) 0x14, (byte) 0xF3, (byte) 0xE8, (byte) 0xC9, (byte) 0x55, (byte) 0xF4, (byte) 0x86,
-        (byte) 0x4C, (byte) 0xAE, (byte) 0x8A, (byte) 0x09, (byte) 0x30, (byte) 0xFF,
-        (byte) 0x3B, (byte) 0x73, (byte) 0xF3, (byte) 0x88, (byte) 0x52, (byte) 0x4F, (byte) 0x29, (byte) 0x71, (byte) 0xD6, (byte) 0x35,
-        (byte) 0x1B, (byte) 0x20, (byte) 0x52, (byte) 0xC4, (byte) 0x1C, (byte) 0x0E,
-        (byte) 0xF9, (byte) 0x3D, (byte) 0xAE, (byte) 0xDC, (byte) 0x47, (byte) 0x8B, (byte) 0x12, (byte) 0xD7, (byte) 0xF4, (byte) 0x68,
-        (byte) 0x6B, (byte) 0xDE, (byte) 0xE9, (byte) 0x86, (byte) 0xCA, (byte) 0xFF,
-        (byte) 0x6C, (byte) 0x75, (byte) 0x07, (byte) 0x85, (byte) 0x1E};
-
-
 
     public static void main(String[] args) throws InvalidKeyException {
         // for loop going through each byte possibility
 
-        byte[] ex = {(byte) 0x98, (byte) 0x76, (byte) 0x54, (byte) 0x32, (byte) 0x10, (byte) 0xFE,
-            (byte) 0xDC, (byte) 0xBA, (byte) 0x98, (byte) 0x76, (byte) 0x54, (byte) 0x32,
-            (byte) 0x10, (byte) 0xFE, (byte) 0xDC, (byte) 0xBA, (byte) 0x11, (byte) 0xb2, (byte) 0xDc, (byte) 0x50, (byte) 0x05,
+        
+        byte[] t1 = {(byte) 0x11, (byte) 0xb2, (byte) 0xDc, (byte) 0x50, (byte) 0x05,
             (byte) 0xfa, (byte) 0x2c, (byte) 0x88, (byte) 0xd6, (byte) 0x5c, (byte) 0xde,
-            (byte) 0x35, (byte) 0x83, (byte) 0xe3, (byte) 0x09, (byte) 0xb7, (byte) 0xcc, (byte) 0x3b, (byte) 0x12, (byte) 0x89, (byte) 0xfb,
-            (byte) 0x7b, (byte) 0xc3, (byte) 0x3a, (byte) 0x34, (byte) 0x33, (byte) 0xc1,
-            (byte) 0xa9, (byte) 0xfe, (byte) 0x4f, (byte) 0xeb, (byte) 0xd8};
+            (byte) 0x35, (byte) 0x83, (byte) 0xe3, (byte) 0x09, (byte) 0xb7};
 
-        for (byte b : ex) {
-            System.out.printf("%x", b);
-        }
+        byte[] t2 = {(byte) 0xcc, (byte) 0x3b, (byte) 0x12, (byte) 0x89, (byte) 0xfb,
+                (byte) 0x7b, (byte) 0xc3, (byte) 0x3a, (byte) 0x34, (byte) 0x33, (byte) 0xc1,
+                (byte) 0xa9, (byte) 0xfe, (byte) 0x4f, (byte) 0xeb, (byte) 0xd8};
+
         byte[] inKey2 = {(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
-            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
-            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0xFF};
+					(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
+					(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0xFF};
+        
+        byte[] cbcIV = {(byte) 0x98, (byte) 0x76, (byte) 0x54, (byte) 0x32, (byte) 0x10, (byte) 0xFE,
+                        (byte) 0xDC, (byte) 0xBA, (byte) 0x98, (byte) 0x76, (byte) 0x54, (byte) 0x32,
+                        (byte) 0x10, (byte) 0xFE, (byte) 0xDC, (byte) 0xBA};
+        
+        byte[] d1 = decrypt(t1, inKey2);
+        byte[] p1 = new byte[16];
+        for (int m = 0; m < 16; m++) {
+            p1[m] = (byte) (d1[m] ^ iv[m]);
+        }
 
-        String plain = decrypt(ex, inKey2);
+        String plain = convertToString(p1);
         System.out.println(plain);
         // for (int i = 0; i < 256; i++) {
         //     inkey[0] = (byte) i;
@@ -90,20 +84,17 @@ public class CS482_project3_justin_jacob {
         //                         inkey[4] = (byte) 0xe0;
         //                     }
                             
-        //                     String d1 = decrypt(cipherText, inkey);
-                            // byte[] p1 = new byte[16];
-                            // for (int m = 0; m < 16; m++) {
-                            //     p1[m] = (byte) (d1[m] ^ iv[m]);
-                            // }
-                            // String key = new String(inkey);
-                            // String plain1 = new String(p1);
-                            // if (isprintable(plain1)) {
-                            //     System.out.println(key);
-                            //     System.out.println(plain1);
-                            // }
-
-                            // System.out.println(d1);
-
+        //                     byte[] d1 = decrypt(c1, inkey);
+        //                     byte[] p1 = new byte[16];
+        //                     for (int m = 0; m < 16; m++) {
+        //                         p1[m] = (byte) (d1[m] ^ iv[m]);
+        //                     }
+        //                     String key = new String(inkey);
+        //                     String plain1 = new String(p1);
+        //                     if (isprintable(plain1)) {
+        //                         System.out.println(key);
+        //                         System.out.println(plain1);
+        //                     }
                             // Check to make sure that plain text found is valid [32, 127] ascii range
 
                             // byte[] d2 = decrypt(c2, inkey);
@@ -142,40 +133,30 @@ public class CS482_project3_justin_jacob {
      * @param inKey is symmetric key
      * @throws InvalidKeyException \\
      */
-    private static String decrypt(byte[] cipherText, byte[] inKey) throws InvalidKeyException {
-        String textString = "abcdefghijklmnopqrstuvwxyz012345";
+    private static byte[] decrypt(byte[] cipherText, byte[] inKey) throws InvalidKeyException {
         //
 			// If you receive the ciphertext, assuming that you have the same symmetric key, how will you decrypt?
 			// Below, you only have inKey and cipherText
 			//
-            System.out.println (System.getProperty ("line.separator") + "Decrypting ......");
-            Object decryptRoundKeys = Rijndael_Algorithm.makeKey (Rijndael_Algorithm.DECRYPT_MODE, inKey); // 
+		System.out.println (System.getProperty ("line.separator") + "Decrypting ......");
+        Object decryptRoundKeys = Rijndael_Algorithm.makeKey (Rijndael_Algorithm.DECRYPT_MODE, inKey); //
+        byte[] decryptedBlock =  Rijndael_Algorithm.blockDecrypt2 (cipherText, 0, decryptRoundKeys);
+        // int numOfCiphertextBlocks = cipherText.length / 16 - 1; // Each AES block has 16 bytes and we need to exclude the IV
+        // byte[] cleartextBlocks = new byte[numOfCiphertextBlocks * 16];
+
+        // byte[] receivedIV = new byte[16];
+        // for (int i = 0; i < 16; i++) receivedIV[i] = cipherText[i];
+        // byte[] currentDecryptionBlock = new byte[16];
+
+        // for (int i=0; i < numOfCiphertextBlocks; i++) {
+        //     for (int j=0; j < 16; j++) currentDecryptionBlock [j] = cipherText[(i+1)*16 + j]; // Note that the first block is the IV
+
+        //     byte[] thisDecryptedBlock = Rijndael_Algorithm.blockDecrypt2 (currentDecryptionBlock, 0, decryptRoundKeys);
     
-            int numOfCiphertextBlocks = cipherText.length / 16 - 1; // Each AES block has 16 bytes and we need to exclude the IV
-            byte[] cleartextBlocks = new byte[numOfCiphertextBlocks * 16];
+        //     for (int j=0; j < 16; j++) cleartextBlocks[i*16+j] =  (byte) (thisDecryptedBlock[j] ^ cipherText[i*16 + j]);
+        // }
 
-        byte[] receivedIV = new byte[16];
-        for (int i = 0; i < 16; i++) receivedIV[i] = cipherText[i];
-        byte[] currentDecryptionBlock = new byte[16];
-
-        for (int i=0; i < numOfCiphertextBlocks; i++) {
-            for (int j=0; j < 16; j++) currentDecryptionBlock [j] = cipherText[(i+1)*16 + j]; // Note that the first block is the IV
-
-            byte[] thisDecryptedBlock = Rijndael_Algorithm.blockDecrypt2 (currentDecryptionBlock, 0, decryptRoundKeys);
-    
-            for (int j=0; j < 16; j++) cleartextBlocks[i*16+j] =  (byte) (thisDecryptedBlock[j] ^ cipherText[i*16 + j]);
-    }
-
-    String recoveredString = new String (cleartextBlocks);
-    if (!recoveredString.equals (textString)) {
-                System.out.println ("Decryption does NOT work!");
-        System.out.println ("Recovered: " + recoveredString);
-        System.out.println ("Original: " + textString);
-    } else {
-        System.out.println ("Recovered cleartext is " + recoveredString);
-        System.out.println ("Decryption worked beautifully and recovered the original plaintext!");
-    }
-    return "hi";
+        return decryptedBlock;
     }
 
 
