@@ -1,5 +1,5 @@
-import java.math.BigInteger;
 import java.security.InvalidKeyException;
+
 /**
  * @author Jacob Susko
  * @author Justin Lacombe
@@ -63,6 +63,12 @@ public class CS482_project3_justin_jacob {
                             for (int m = 0; m < 16; m++) {
                                 p1[m] = (byte) (d1[m] ^ iv[m]);
                             }
+                            String key = new String(inkey);
+                            String plain1 = new String(p1);
+                            if (isprintable(plain1)) {
+                                System.out.println(key);
+                                System.out.println(plain1);
+                            }
                             // Check to make sure that plain text found is valid [32, 127] ascii range
 
                             // byte[] d2 = decrypt(c2, inkey);
@@ -84,10 +90,7 @@ public class CS482_project3_justin_jacob {
                             //     p4[d] = (byte) (d4[d] ^ c3[d]);
                             // }
 
-                            String key = new String(inkey);
-                            String plain = new String(p1);
-                            System.out.println(key);
-                            System.out.println(plain);
+
                             // System.out.print(p2.toString());
                             // System.out.print(p3.toString());
                             // System.out.println(p4.toString() + "\n");
@@ -129,4 +132,17 @@ public class CS482_project3_justin_jacob {
 
         return decryptedBlock;
     }
+}
+
+private static boolean isprintable(String plain) {
+    for (int i = 0; i < plain.length(); i++) {
+        if (!printable(plain.charAt(i))) {
+            return false;
+        }
+    }
+    return true;
+}
+
+private static boolean printable(char c) {
+    return c >= 32 && c < 127;
 }
