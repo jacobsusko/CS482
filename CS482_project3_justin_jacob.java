@@ -132,17 +132,19 @@ public class CS482_project3_justin_jacob {
 
         return decryptedBlock;
     }
-}
 
-private static boolean isprintable(String plain) {
-    for (int i = 0; i < plain.length(); i++) {
-        if (!printable(plain.charAt(i))) {
-            return false;
+
+    private static boolean isprintable(String plain) {
+        for (int i = 0; i < plain.length(); i++) {
+            if (!printable(plain.charAt(i))) {
+                return false;
+            }
         }
+        return true;
     }
-    return true;
-}
 
-private static boolean printable(char c) {
+    private static boolean printable(char c) {
     return c >= 32 && c < 127;
+    }
+
 }
