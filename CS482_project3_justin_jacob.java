@@ -23,6 +23,7 @@ public class CS482_project3_justin_jacob {
 
     public static void main(String[] args) throws InvalidKeyException {
         // for loop going through each byte possibility
+        long startTime = System.nanoTime();
         String cipher = "C17728A947CCC9EE21B4EAED9C62C88862FD8D388D65839F79E8A9382B0B14F3E8C955F4864CAE8A0930FF3B73F388524F2971D6351B2052C41C0EF93DAEDC478B12D7F4686BDEE986CAFF6C7507851E";
 		BigInteger b =  new BigInteger(cipher, 16);
 		byte[] cTemp =  b.toByteArray();
@@ -54,6 +55,9 @@ public class CS482_project3_justin_jacob {
                 }
             }
         }
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime);
+        System.out.println(duration);
     }
 
     /**
