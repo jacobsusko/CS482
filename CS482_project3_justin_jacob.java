@@ -32,13 +32,13 @@ public class CS482_project3_justin_jacob {
 			cipherText[p-1] = cTemp[p];
 		}
 
-        for (int i = 255; i >= 0; i++) {
+        for (int i = 255; i >= 0; i--) {
             inkey[0] = (byte) i;
-            for (int j = 255; j >= 0; j++) {
+            for (int j = 255; j >= 0; j--) {
                 inkey[1] = (byte) j;
-                for (int k = 255; k >= 0; k++) {
+                for (int k = 255; k >= 0; k--) {
                     inkey[2] = (byte) k;
-                    for (int z = 255; z >= 0; z++) {
+                    for (int z = 255; z >= 0; z--) {
                         inkey[3] = (byte) z;
                         for (int g = 0; g < 2; g++) {
                             if (g == 0) {
@@ -47,6 +47,7 @@ public class CS482_project3_justin_jacob {
                                 inkey[4] = (byte) 0xe0;
                             }
                             String plain = decrypt(cipherText, inkey);
+                            
                             if (!plain.equals("")) {
                                 System.out.println("Key: " + convertToString(inkey));
                                 System.out.println(plain + "\n");
