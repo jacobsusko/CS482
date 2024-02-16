@@ -64,7 +64,6 @@ public class CS482_project3_justin_jacob {
      * @throws InvalidKeyException \\
      */
     private static String decrypt(byte[] cipherText, byte[] inKey) throws InvalidKeyException {
-        String textString = "abcdefghijklmnopqrstuvwxyz012345";
         //
 			// If you receive the ciphertext, assuming that you have the same symmetric key, how will you decrypt?
 			// Below, you only have inKey and cipherText
@@ -83,7 +82,9 @@ public class CS482_project3_justin_jacob {
             for (int j=0; j < 16; j++) currentDecryptionBlock [j] = cipherText[(i+1)*16 + j]; // Note that the first block is the IV
 
             byte[] thisDecryptedBlock = Rijndael_Algorithm.blockDecrypt2 (currentDecryptionBlock, 0, decryptRoundKeys);
-    
+            if (!isprintable(thisDecryptedBlock)) {
+                break;
+            }
             for (int j=0; j < 16; j++) cleartextBlocks[i*16+j] =  (byte) (thisDecryptedBlock[j] ^ cipherText[i*16 + j]);
     }
 
@@ -92,17 +93,17 @@ public class CS482_project3_justin_jacob {
     }
 
 
-    private static boolean isprintable(String plain) {
-        for (int i = 0; i < plain.length(); i++) {
-            if (!printable(plain.charAt(i))) {
+    private static boolean isprintable(byte[] plain) {
+        for (byte b : plain) {
+            if (!printable(b)) {
                 return false;
             }
         }
         return true;
     }
 
-    private static boolean printable(char c) {
-    return c >= 32 && c < 127;
+    private static boolean printable(byte b) {
+    return b >= 32 && b < 127;
     }
 
     public static String convertToString (byte[] data) {
