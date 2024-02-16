@@ -22,7 +22,11 @@ public class AESExample {
 			// populate the plaintext
 			String textString = "abcdefghijklmnopqrstuvwxyz012345"; // exactly 32 bytes, two blocks of data
 
-			// byte[] inText = textString.getBytes();		    // This will return the ASCII encoding of the characters
+			byte[] inText = textString.getBytes();		    // This will return the ASCII encoding of the characters
+			System.out.println(inText[0]);
+			inText[0] = (byte) 31;
+			boolean test = isprintable(inText);
+			System.out.println(test);
 			// int numOfBlocks = inText.length / 16; 		// Each AES block has 16 bytes
 
 			// Object roundKeys = Rijndael_Algorithm.makeKey (Rijndael_Algorithm.ENCRYPT_MODE, inKey); // This creates the round keys
@@ -123,4 +127,17 @@ public class AESExample {
 			ex.printStackTrace();
 		}
 	}
+
+	private static boolean isprintable(byte[] plain) {
+        for (byte b : plain) {
+            if (!printable(b)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean printable(byte b) {
+    return b >= 32 && b < 127;
+    }
 }

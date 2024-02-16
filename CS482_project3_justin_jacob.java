@@ -46,10 +46,9 @@ public class CS482_project3_justin_jacob {
                                 inkey[4] = (byte) 0xe0;
                             }
                             String plain = decrypt(cipherText, inkey);
-                            if (isprintable(plain)) {
-                                System.out.println("Key: " + convertToString(inkey));
+                            
+                            System.out.println("Key: " + convertToString(inkey));
                             System.out.println(plain + "\n");
-                            }
                         }
                     }
                 }
