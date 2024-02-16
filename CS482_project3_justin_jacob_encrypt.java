@@ -19,6 +19,9 @@ public class CS482_project3_justin_jacob_encrypt {
         for (int p = 1; p < kTemp.length; p++) {
             key[p-1] = kTemp[p];
         }
+
+        String plainText = "Transfer fifty thousand dollars from my bank account to Jane Doe";
+        byte[] inText = plainText.getBytes();	
     }
 
 }
