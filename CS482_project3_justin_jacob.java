@@ -46,8 +46,10 @@ public class CS482_project3_justin_jacob {
                                 inkey[4] = (byte) 0xe0;
                             }
                             String plain = decrypt(cipherText, inkey);
-                            System.out.println("Key: " + convertToString(inkey));
+                            if (isprintable(plain)) {
+                                System.out.println("Key: " + convertToString(inkey));
                             System.out.println(plain + "\n");
+                            }
                         }
                     }
                 }
@@ -67,7 +69,7 @@ public class CS482_project3_justin_jacob {
 			// If you receive the ciphertext, assuming that you have the same symmetric key, how will you decrypt?
 			// Below, you only have inKey and cipherText
 			//
-            System.out.println (System.getProperty ("line.separator") + "Decrypting ......");
+            // System.out.println (System.getProperty ("line.separator") + "Decrypting ......");
             Object decryptRoundKeys = Rijndael_Algorithm.makeKey (Rijndael_Algorithm.DECRYPT_MODE, inKey); // 
     
             int numOfCiphertextBlocks = cipherText.length / 16 - 1; // Each AES block has 16 bytes and we need to exclude the IV
@@ -83,7 +85,6 @@ public class CS482_project3_justin_jacob {
             byte[] thisDecryptedBlock = Rijndael_Algorithm.blockDecrypt2 (currentDecryptionBlock, 0, decryptRoundKeys);
     
             for (int j=0; j < 16; j++) cleartextBlocks[i*16+j] =  (byte) (thisDecryptedBlock[j] ^ cipherText[i*16 + j]);
-            for (int )
     }
 
     String recoveredString = new String (cleartextBlocks);
