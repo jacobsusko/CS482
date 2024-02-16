@@ -50,17 +50,17 @@ public class CS482_project3_justin_jacob {
                             if (!plain.equals("")) {
                                 System.out.println("Key: " + convertToString(inkey));
                                 System.out.println(plain + "\n");
-                                break;
+                                long endTime = System.nanoTime();
+                                long duration = (endTime - startTime);
+                                System.out.println(duration);
+                                return;
                             }
                             
                         }
                     }
                 }
             }
-        }
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime);
-        System.out.println(duration);
+        }    
     }
 
     /**
