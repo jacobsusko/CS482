@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.security.InvalidKeyException;
 
 /**
@@ -18,62 +19,31 @@ public class CS482_project3_justin_jacob {
         (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, 
         (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, 
         (byte) 0x00, (byte) 0x03}; // 5th byte is either 6 or f
-
-    private static byte[] iv = {(byte) 0xC1, (byte) 0x77, (byte) 0x28, (byte) 0xA9, 
-        (byte) 0x47, (byte) 0xCC, (byte) 0xC9, (byte) 0xEE, (byte) 0x21, 
-        (byte) 0xB4, (byte) 0xEA, (byte) 0xED, (byte) 0x9C, (byte) 0x62, 
-        (byte) 0xC8, (byte) 0x88};
-
-    private static byte[] c1 = {(byte) 0x62, (byte) 0xFD, (byte) 0x8D, (byte) 0x38, (byte) 0x8D,
-        (byte) 0x65, (byte) 0x83, (byte) 0x9F, (byte) 0x79, (byte) 0xE8, (byte) 0xA9,
-        (byte) 0x38, (byte) 0x2B, (byte) 0x0B, (byte) 0x14, (byte) 0xF3};
-
-    private static byte[] c2 = {(byte) 0xE8, (byte) 0xC9, (byte) 0x55, (byte) 0xF4, (byte) 0x86,
-        (byte) 0x4C, (byte) 0xAE, (byte) 0x8A, (byte) 0x09, (byte) 0x30, (byte) 0xFF,
-        (byte) 0x3B, (byte) 0x73, (byte) 0xF3, (byte) 0x88, (byte) 0x52};
-
-    private static byte[] c3 = {(byte) 0x4F, (byte) 0x29, (byte) 0x71, (byte) 0xD6, (byte) 0x35,
-        (byte) 0x1B, (byte) 0x20, (byte) 0x52, (byte) 0xC4, (byte) 0x1C, (byte) 0x0E,
-        (byte) 0xF9, (byte) 0x3D, (byte) 0xAE, (byte) 0xDC, (byte) 0x47};
-
-    private static byte[] c4 = {(byte) 0x8B, (byte) 0x12, (byte) 0xD7, (byte) 0xF4, (byte) 0x68,
-        (byte) 0x6B, (byte) 0xDE, (byte) 0xE9, (byte) 0x86, (byte) 0xCA, (byte) 0xFF,
-        (byte) 0x6C, (byte) 0x75, (byte) 0x07, (byte) 0x85, (byte) 0x1E};
-
-    private static byte[] cipherText = {(byte) 0xC1, (byte) 0x77, (byte) 0x28, (byte) 0xA9, 
-        (byte) 0x47, (byte) 0xCC, (byte) 0xC9, (byte) 0xEE, (byte) 0x21, 
-        (byte) 0xB4, (byte) 0xEA, (byte) 0xED, (byte) 0x9C, (byte) 0x62, 
-        (byte) 0xC8, (byte) 0x88, (byte) 0x62, (byte) 0xFD, (byte) 0x8D, (byte) 0x38, (byte) 0x8D,
-        (byte) 0x65, (byte) 0x83, (byte) 0x9F, (byte) 0x79, (byte) 0xE8, (byte) 0xA9,
-        (byte) 0x38, (byte) 0x2B, (byte) 0x0B, (byte) 0x14, (byte) 0xF3, (byte) 0xE8, (byte) 0xC9, (byte) 0x55, (byte) 0xF4, (byte) 0x86,
-        (byte) 0x4C, (byte) 0xAE, (byte) 0x8A, (byte) 0x09, (byte) 0x30, (byte) 0xFF,
-        (byte) 0x3B, (byte) 0x73, (byte) 0xF3, (byte) 0x88, (byte) 0x52, (byte) 0x4F, (byte) 0x29, (byte) 0x71, (byte) 0xD6, (byte) 0x35,
-        (byte) 0x1B, (byte) 0x20, (byte) 0x52, (byte) 0xC4, (byte) 0x1C, (byte) 0x0E,
-        (byte) 0xF9, (byte) 0x3D, (byte) 0xAE, (byte) 0xDC, (byte) 0x47, (byte) 0x8B, (byte) 0x12, (byte) 0xD7, (byte) 0xF4, (byte) 0x68,
-        (byte) 0x6B, (byte) 0xDE, (byte) 0xE9, (byte) 0x86, (byte) 0xCA, (byte) 0xFF,
-        (byte) 0x6C, (byte) 0x75, (byte) 0x07, (byte) 0x85, (byte) 0x1E};
-
-
+    
+    private static byte[] inKey2 = {(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
+            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
+            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0xFF};
+    
 
     public static void main(String[] args) throws InvalidKeyException {
         // for loop going through each byte possibility
-
-        byte[] ex = {(byte) 0x98, (byte) 0x76, (byte) 0x54, (byte) 0x32, (byte) 0x10, (byte) 0xFE,
-            (byte) 0xDC, (byte) 0xBA, (byte) 0x98, (byte) 0x76, (byte) 0x54, (byte) 0x32,
-            (byte) 0x10, (byte) 0xFE, (byte) 0xDC, (byte) 0xBA, (byte) 0x11, (byte) 0xb2, (byte) 0xDc, (byte) 0x50, (byte) 0x05,
-            (byte) 0xfa, (byte) 0x2c, (byte) 0x88, (byte) 0xd6, (byte) 0x5c, (byte) 0xde,
-            (byte) 0x35, (byte) 0x83, (byte) 0xe3, (byte) 0x09, (byte) 0xb7, (byte) 0xcc, (byte) 0x3b, (byte) 0x12, (byte) 0x89, (byte) 0xfb,
-            (byte) 0x7b, (byte) 0xc3, (byte) 0x3a, (byte) 0x34, (byte) 0x33, (byte) 0xc1,
-            (byte) 0xa9, (byte) 0xfe, (byte) 0x4f, (byte) 0xeb, (byte) 0xd8};
-
-        for (byte b : ex) {
-            System.out.printf("%x", b);
+        // String cipher = "C17728A947CCC9EE21B4EAED9C62C88862FD8D388D65839F79E8A9382B0B14F3E8C955F4864CAE8A0930FF3B73F388524F2971D6351B2052C41C0EF93DAEDC478B12D7F4686BDEE986CAFF6C7507851E";
+		// BigInteger b =  new BigInteger(cipher, 16);
+		// byte[] cTemp =  b.toByteArray();
+		// byte[] cipherText = new byte[48];
+		// for (int p = 1; p < cTemp.length; p++) {
+		// 	cipherText[p-1] = cTemp[p];
+		// }
+        String cipherString = "9876543210FEDCBA9876543210FEDCBA11B2DC5005FA2C88D65C5DE3583E309B7CC3B1289FB7BC3A3433C1A9FE4FEBD8";
+        System.out.println(cipherString.length());
+        BigInteger b =  new BigInteger(cipherString, 16);
+        byte[] cTemp =  b.toByteArray();
+        byte[] cipher = new byte[48];
+        for (int p = 1; p < cTemp.length; p++) {
+            cipher[p-1] = cTemp[p];
         }
-        byte[] inKey2 = {(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
-            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
-            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0xFF};
 
-        String plain = decrypt(ex, inKey2);
+        String plain = decrypt(cipher, inKey2);
         System.out.println(plain);
         // for (int i = 0; i < 256; i++) {
         //     inkey[0] = (byte) i;
@@ -167,15 +137,7 @@ public class CS482_project3_justin_jacob {
     }
 
     String recoveredString = new String (cleartextBlocks);
-    if (!recoveredString.equals (textString)) {
-                System.out.println ("Decryption does NOT work!");
-        System.out.println ("Recovered: " + recoveredString);
-        System.out.println ("Original: " + textString);
-    } else {
-        System.out.println ("Recovered cleartext is " + recoveredString);
-        System.out.println ("Decryption worked beautifully and recovered the original plaintext!");
-    }
-    return "hi";
+    return recoveredString;
     }
 
 
