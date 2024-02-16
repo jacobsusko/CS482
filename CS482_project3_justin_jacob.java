@@ -88,10 +88,11 @@ public class CS482_project3_justin_jacob {
             for (int j=0; j < 16; j++) currentDecryptionBlock [j] = cipherText[(i+1)*16 + j]; // Note that the first block is the IV
 
             byte[] thisDecryptedBlock = Rijndael_Algorithm.blockDecrypt2 (currentDecryptionBlock, 0, decryptRoundKeys);
-            if (!isprintable(thisDecryptedBlock)) {
+            
+            for (int j=0; j < 16; j++) cleartextBlocks[i*16+j] =  (byte) (thisDecryptedBlock[j] ^ cipherText[i*16 + j]);
+            if (!isprintable(cleartextBlocks, i)) {
                 return "";
             }
-            for (int j=0; j < 16; j++) cleartextBlocks[i*16+j] =  (byte) (thisDecryptedBlock[j] ^ cipherText[i*16 + j]);
     }
 
     String recoveredString = new String (cleartextBlocks);
@@ -99,9 +100,9 @@ public class CS482_project3_justin_jacob {
     }
 
 
-    private static boolean isprintable(byte[] plain) {
-        for (byte b : plain) {
-            if (!printable(b)) {
+    private static boolean isprintable(byte[] plain, int block) {
+        for (int i = 0; i < 16; i++) {
+            if (!printable(plain[block*16+i])) {
                 return false;
             }
         }
