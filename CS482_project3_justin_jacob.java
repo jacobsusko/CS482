@@ -89,7 +89,7 @@ public class CS482_project3_justin_jacob {
 
             byte[] thisDecryptedBlock = Rijndael_Algorithm.blockDecrypt2 (currentDecryptionBlock, 0, decryptRoundKeys);
             if (!isprintable(thisDecryptedBlock)) {
-                break;
+                return "";
             }
             for (int j=0; j < 16; j++) cleartextBlocks[i*16+j] =  (byte) (thisDecryptedBlock[j] ^ cipherText[i*16 + j]);
     }
