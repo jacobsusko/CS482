@@ -38,11 +38,20 @@ def decrypt(originalx1, cx):
     # print ('\nSTEP 2: needs to manually calculate ax mods p')
     return lastrem3
 
-def mods(hx):
+def mods(hx, n):
+    hx = str(hx)
+
     # q = 31
-    mods_coef = lambda b: b - 31 if b % 31 > 31 / 2 else b % 31
+    # mods_coef = lambda b: b - 31 if b % 31 > 31 / 2 else b % 31
+    mods_coef = lambda b: b - n if b % n > n / 2 else b % n
     coefficeient_pattern = r"([-+]?\d*)\*?x\^?\d*"
     coefficients = re.findall(coefficeient_pattern, hx)
+
+    for index, element in enumerate(coefficients):
+        if coefficients[index] == '':
+            coefficients[index] = '1'
+
+    # print(coefficients)
 
     mods_coefficents = [mods_coef(int(coeff)) for coeff in coefficients]
     hx_final = hx
@@ -118,7 +127,24 @@ breakingntru_23 = matrix(ZZ, 46, [
 res = breakingntru_23.LLL()
 # use norm().n() to get shortest vectors and check those
 # For each row calculate norm and for 5 smallest calculate and then check
-print(res)
+# print(res)
+# print("")
+negativeRes = []
+
+for array in res:
+    negativeArr = []
+    for num in array:
+        negativeArr.append(num)
+    negativeRes.append(negativeArr)
+
+    negativeArr = []
+    for num in array:
+        negativeArr.append(num * -1)
+    negativeRes.append(negativeArr)
+
+# for arr in negativeRes:
+#     print(arr)
+
 
 finals = {}
 
@@ -139,18 +165,40 @@ for key, val in finals.items():
     if val == shortest:
         short.append(key)
 
+
 new_finals = {}
 
+negatives = []
 for k in short:
-    print(res[k])
     new_finals[k] = finals[k]
 
-print(new_finals.keys())
+    # creates the primes of all the shortest vectors
+    # negativeArr = []
+    # for num in res[k]:
+    #     negativeArr.append(num * -1)
+    # negatives.append(negativeArr)
+    
+# for num in negatives:
+#     print(num)
+    
+keys = []
+for num in new_finals.keys():
+    keys.append(num)
 
-for index in new_finals.keys():
-    f_coefficents = res[index][:23]
-    g_coefficents = res[index][23:]
+final_indexes = []
+ind = 0
+for number in new_finals.keys():
+    final_indexes.append(keys[ind] * 2)
+    final_indexes.append(keys[ind] *2 + 1)
+    ind += 1
 
+# print(new_finals.keys())
+# print(final_indexes)
+
+
+for index in final_indexes:
+    f_coefficents = negativeRes[index][:23]
+    g_coefficents = negativeRes[index][23:]
 
     degree = 0
 
@@ -202,11 +250,21 @@ for index in new_finals.keys():
 
 
 
-    print('*************************')
-    print(index)
-    cx = encrypt(ogx1)
-    lastResult = decrypt(ogx1, cx)
-    print(lastResult)
+    if (index == 25): # the correct index
+        print('*************************')
+        print(index)
+        cx = encrypt(ogx1)
+        lastResult = decrypt(ogx1, cx)
+        print(lastResult)
+        results = mods(lastResult, 31)
+        print(results)
+        results = mods(lastResult, 3)
+        print(results)
+
+
+
+
+
     # print(index)
     # print(hx)
     # print()
