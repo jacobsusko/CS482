@@ -39,11 +39,13 @@ def decrypt(originalx1, cx):
 
 
 def mods_coef(b, n):
-    if   -(n // 2) <= b <= (n // 2):
+    
+    
+    if   -(n // 2) <= b <= (n // 2): # if b is in the range
         return b
-    if   -(n // 2) <= b%n <= (n // 2):
+    if   -(n // 2) <= b%n <= (n // 2): # if b%n is in the range
         return b%n
-    if b%n == 0:
+    if b%n == 0: 
         return 0
     
     if (b%n) > (n//2) and b > 0:
