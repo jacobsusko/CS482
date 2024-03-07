@@ -51,12 +51,15 @@ def mods(hx, n):
         if coefficients[index] == '':
             coefficients[index] = '1'
 
-    # print(coefficients)
-
     mods_coefficents = [mods_coef(int(coeff)) for coeff in coefficients]
     hx_final = hx
     for coeff in coefficients:
         hx_final = hx_final.replace(coeff + '*x', str(mods_coefficents.pop(0)) + '*x', 1)
+
+    # split = hx.split(" ")
+    # print(split[len(split) - 1])
+    # lastNum = mods_coef(int(split[len(split) - 1]))
+    # print(lastNum)
 
     return hx_final
 
@@ -258,7 +261,7 @@ for index in final_indexes:
         print(lastResult)
         results = mods(lastResult, 31)
         print(results)
-        results = mods(lastResult, 3)
+        results = mods(results, 3)
         print(results)
 
 
