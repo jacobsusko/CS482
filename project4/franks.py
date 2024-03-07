@@ -99,10 +99,6 @@ def mods(hx, n):
         lastNum = mods_coef(int(split[len(split) - 1]), n)
         hx_f += " " + str(lastNum)
 
-        # if lastNum < 0:
-        #     hx_f += " " + str(lastNum)
-        # else:
-        #     hx_f += " " + str(lastNum)
     except ValueError:
         hx_f = hx_f[:-3]
         pass
@@ -317,4 +313,6 @@ for index in final_indexes:
         print()
         print(results)
         break
+
+
 
