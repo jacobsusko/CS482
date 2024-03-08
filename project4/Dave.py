@@ -40,11 +40,22 @@ def decrypt(originalx1, cx):
 
 
 def mods_coef(b, n):
-    if (b%n) > (n/2) and b > 0:
-        return b-n 
-    if (b%n) > (n/2) and b < 0:
-        return b+n 
-    return b%n
+    if   -(n // 2) <= b <= (n // 2): # if b is in the range
+        return b
+    if   -(n // 2) <= b%n <= (n // 2): # if b%n is in the range
+        return b%n
+    if b%n == 0: 
+        return 0
+    
+    if (b%n) > (n//2) and b > 0:
+        return (b%n)-n
+    elif (b%n) <= (n//2) and b > 0:
+        return b-n
+    
+    if (b%n) > (n//2) and b < 0:
+        return b+n
+    elif (b%n) <= (n//2) and b < 0:
+        return (b%n)
 
 
 def mods(hx, n):
@@ -57,13 +68,27 @@ def mods(hx, n):
         if coefficients[index] == '':
             coefficients[index] = '1'
 
+    # print("Coeffs: ", end= " ")
     # print(coefficients)
 
     mods_coefficents = [mods_coef(int(coeff), n) for coeff in coefficients]
+
     hx_final = hx
     for coeff in coefficients:
         hx_final = hx_final.replace(coeff + '*x', str(mods_coefficents.pop(0)) + '*x', 1)
+    
+    split = hx.split(" ")
+    lastNum = split[len(split) - 1]
+    lastNumLength = len(str(lastNum))
+    if not('x' in lastNum):
+        # print(hx[len(hx) - 1])
+        hx_final = hx_final[:(-lastNumLength)] + str(mods_coef(int(lastNum), n)) # does the mod for the coeff with no x
+    # else:
+    #     hx_final = hx_final[:(-lastNumLength)] + str(lastNum)
 
+    # print()
+    # print("hx_final : " + str(hx_final))
+    
     hx_f = ''
     for num in hx_final.split(' + '):
         if num == '':
@@ -71,16 +96,24 @@ def mods(hx, n):
         if num[0] != '0':
             hx_f += num + ' + '
 
-    
-    try:
-        hx_f = hx_f[:-5]
-        split = hx.split(" ")
-        lastNum = mods_coef(int(split[len(split) - 1]), n)
-        hx_f += str(lastNum)
-    except ValueError:
+    # print(hx_f)
+    # print(len(hx))
+    # print(hx[len(hx) - 1])
+    if hx[len(hx) - 1] != 'x':
+        try:
+            hx_f = hx_f[:-3]
+            # hx_f = hx_f[:-5]
+            # split = hx.split(" ")
+            # lastNum = mods_coef(int(split[len(split) - 1]), n)
+            # lastNumLength = len(str(lastNum))
+            # hx_f = hx_f[:(-4-lastNumLength)] # gets rid of extra space due to lastNum length
+            # hx_f += " " + str(lastNum)
+        except ValueError:
+            hx_f = hx_f[:-3]
+            pass
+    else:
         hx_f = hx_f[:-3]
-        pass
-    
+
     return hx_f
 
 
@@ -96,6 +129,13 @@ _sage_const_8 = Integer(8); _sage_const_6 = Integer(6); _sage_const_12 = Integer
 p = _sage_const_3
 q = _sage_const_31
 N = _sage_const_23
+p2 = _sage_const_3
+q2 = _sage_const_31
+N2 = _sage_const_23
+p3 = _sage_const_3
+q3 = _sage_const_31
+N3 = _sage_const_23
+
 h = - _sage_const_2*x**_sage_const_22 + _sage_const_5*x**_sage_const_21 + _sage_const_7*x**_sage_const_20 + _sage_const_14*x**_sage_const_19 + _sage_const_5*x**_sage_const_18 - _sage_const_3*x**_sage_const_17 + _sage_const_15*x**_sage_const_16 + _sage_const_2*x**_sage_const_15 - _sage_const_2*x**_sage_const_14 + _sage_const_9*x**_sage_const_13 - _sage_const_1*x**_sage_const_12 - _sage_const_14*x**_sage_const_11 - _sage_const_4*x**_sage_const_10 - _sage_const_1*x**_sage_const_9 - _sage_const_5*x**_sage_const_8 + _sage_const_5*x**_sage_const_7 - _sage_const_7*x**_sage_const_6 + _sage_const_9*x**_sage_const_5 + _sage_const_13*x**_sage_const_4 - _sage_const_15*x**_sage_const_3 + _sage_const_11*x**_sage_const_2 - _sage_const_9*x + _sage_const_10
 R = PolynomialRing(GF(q), 'x', names=('x',)); (x,) = R._first_ngens(1)
 
@@ -220,7 +260,6 @@ for number in new_finals.keys():
 # print(new_finals.keys())
 # print(final_indexes)
 
-
 for index in final_indexes:
     f_coefficents = negativeRes[index][:23]
     g_coefficents = negativeRes[index][23:]
@@ -276,24 +315,64 @@ for index in final_indexes:
 
     cx = encrypt(ogx1)
     lastResult = decrypt(ogx1, cx)
-    results = mods(lastResult, 31)
-    results = mods(results, 3)
+    results = mods(lastResult, q2)
+    results = mods(results, p2)
+    results = mods(results, p2)
 
+    # results = results.replace(" ", "")
+    # expectedDecrypt = expectedDecrypt.replace(" ", "")
+
+    print()
+    print("************************************")
+    print()
+    print(results)
+
+    # print(index)
+    # print(results)
     if (results == expectedDecrypt):
-        print('fx:', fx)
-        print('Gx:', Gx)
-        print(results)
-        
+        # print('fx:', fx)
+        # print('Gx:', Gx)
+        # print()
+        fx = mods(fx, q2)
+        Gx = mods(Gx, q2)
+        # print('fx:', fx)
+        # print('Gx:', Gx)
+        # print()
 
-    # if (index == 25): # the correct index
-    #     print('*************************')
-    #     print(index)
-    #     cx = encrypt(ogx1)
-    #     lastResult = decrypt(ogx1, cx)
-    #     print(lastResult)
-    #     print()
-    #     results = mods(lastResult, 31)
-    #     print(results)
-    #     print()
-    #     results = mods(results, 3)
-    #     print(results)
+        gx = mods(R(str(Gx)) * p2, q2)
+        fx = mods(R(str(fx)), q2)
+
+        print('fx:', fx)
+        print('gx:', gx)
+        print()
+
+        pow = _sage_const_0
+
+        # Code to calculate fqx | was taken from stinson-program that was provided
+        x1 = x**N - _sage_const_1
+        ogx1 = x1
+        x2 = R(fx)
+        t1 = _sage_const_0
+        t2 = _sage_const_1
+        s1 = _sage_const_1
+        s2 = _sage_const_0
+
+        while x2.degree() >= _sage_const_0:
+            q2, newx = x1.quo_rem(x2)
+            x1 = x2
+            x2 = newx
+            newt = t1 - t2*q2
+            news = s1 - s2*q2
+            t1 = t2
+            t2 = newt
+            s1 = s2
+            s2 = news
+
+        x1inverse = inverse_mod(x1, q2)
+        fqx = t1 * x1inverse
+
+        hx = fqx * R(gx)
+        lastq, lastrem = hx.quo_rem(ogx1)
+        print("Returns to public key: " + str(mods(lastrem, q3)))
+        break
+        
