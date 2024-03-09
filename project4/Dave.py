@@ -68,9 +68,6 @@ def mods(hx, n):
         if coefficients[index] == '':
             coefficients[index] = '1'
 
-    # print("Coeffs: ", end= " ")
-    # print(coefficients)
-
     mods_coefficents = [mods_coef(int(coeff), n) for coeff in coefficients]
 
     hx_final = hx
@@ -81,13 +78,7 @@ def mods(hx, n):
     lastNum = split[len(split) - 1]
     lastNumLength = len(str(lastNum))
     if not('x' in lastNum):
-        # print(hx[len(hx) - 1])
         hx_final = hx_final[:(-lastNumLength)] + str(mods_coef(int(lastNum), n)) # does the mod for the coeff with no x
-    # else:
-    #     hx_final = hx_final[:(-lastNumLength)] + str(lastNum)
-
-    # print()
-    # print("hx_final : " + str(hx_final))
     
     hx_f = ''
     for num in hx_final.split(' + '):
@@ -96,23 +87,7 @@ def mods(hx, n):
         if num[0] != '0':
             hx_f += num + ' + '
 
-    # print(hx_f)
-    # print(len(hx))
-    # print(hx[len(hx) - 1])
-    if hx[len(hx) - 1] != 'x':
-        try:
-            hx_f = hx_f[:-3]
-            # hx_f = hx_f[:-5]
-            # split = hx.split(" ")
-            # lastNum = mods_coef(int(split[len(split) - 1]), n)
-            # lastNumLength = len(str(lastNum))
-            # hx_f = hx_f[:(-4-lastNumLength)] # gets rid of extra space due to lastNum length
-            # hx_f += " " + str(lastNum)
-        except ValueError:
-            hx_f = hx_f[:-3]
-            pass
-    else:
-        hx_f = hx_f[:-3]
+    hx_f = hx_f[:-3] # removes ending " + "
 
     return hx_f
 
@@ -129,12 +104,11 @@ _sage_const_8 = Integer(8); _sage_const_6 = Integer(6); _sage_const_12 = Integer
 p = _sage_const_3
 q = _sage_const_31
 N = _sage_const_23
+
 p2 = _sage_const_3
 q2 = _sage_const_31
-N2 = _sage_const_23
 p3 = _sage_const_3
 q3 = _sage_const_31
-N3 = _sage_const_23
 
 h = - _sage_const_2*x**_sage_const_22 + _sage_const_5*x**_sage_const_21 + _sage_const_7*x**_sage_const_20 + _sage_const_14*x**_sage_const_19 + _sage_const_5*x**_sage_const_18 - _sage_const_3*x**_sage_const_17 + _sage_const_15*x**_sage_const_16 + _sage_const_2*x**_sage_const_15 - _sage_const_2*x**_sage_const_14 + _sage_const_9*x**_sage_const_13 - _sage_const_1*x**_sage_const_12 - _sage_const_14*x**_sage_const_11 - _sage_const_4*x**_sage_const_10 - _sage_const_1*x**_sage_const_9 - _sage_const_5*x**_sage_const_8 + _sage_const_5*x**_sage_const_7 - _sage_const_7*x**_sage_const_6 + _sage_const_9*x**_sage_const_5 + _sage_const_13*x**_sage_const_4 - _sage_const_15*x**_sage_const_3 + _sage_const_11*x**_sage_const_2 - _sage_const_9*x + _sage_const_10
 R = PolynomialRing(GF(q), 'x', names=('x',)); (x,) = R._first_ngens(1)
@@ -190,12 +164,9 @@ breakingntru_23 = matrix(ZZ, 46, [
  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 31])
 
 res = breakingntru_23.LLL()
-# use norm().n() to get shortest vectors and check those
-# For each row calculate norm and for 5 smallest calculate and then check
-# print(res)
-# print("")
 negativeRes = []
 
+# formats the indexes as the normal matrix row, then its negative. So it alternates between normal and its prime
 for array in res:
     negativeArr = []
     for num in array:
@@ -207,10 +178,6 @@ for array in res:
         negativeArr.append(num * -1)
     negativeRes.append(negativeArr)
 
-# for arr in negativeRes:
-#     print(arr)
-
-
 finals = {}
 
 i = 0
@@ -219,11 +186,6 @@ for row in res:
     i += 1
 
 shortest = min(finals.values())
-
-# order finals
-# sorted = dict(sorted(finals.items(), key=lambda item: item[1]))
-# for x in sorted.items():
-#     print(x[1])
 
 short = []
 for key, val in finals.items():
@@ -236,15 +198,6 @@ new_finals = {}
 negatives = []
 for k in short:
     new_finals[k] = finals[k]
-
-    # creates the primes of all the shortest vectors
-    # negativeArr = []
-    # for num in res[k]:
-    #     negativeArr.append(num * -1)
-    # negatives.append(negativeArr)
-    
-# for num in negatives:
-#     print(num)
     
 keys = []
 for num in new_finals.keys():
@@ -257,12 +210,9 @@ for number in new_finals.keys():
     final_indexes.append(keys[ind] *2 + 1)
     ind += 1
 
-# print(new_finals.keys())
-# print(final_indexes)
-
 for index in final_indexes:
-    f_coefficents = negativeRes[index][:23]
-    g_coefficents = negativeRes[index][23:]
+    f_coefficents = negativeRes[index][:N]
+    g_coefficents = negativeRes[index][N:]
 
     degree = 0
 
@@ -282,7 +232,6 @@ for index in final_indexes:
         pow += _sage_const_1
 
     gx = Gx * p
-    # print(fx)
 
     # Code to calculate fqx | was taken from stinson-program that was provided
     x1 = x**N - _sage_const_1
@@ -309,9 +258,6 @@ for index in final_indexes:
 
     hx = fqx * gx
     lastq, lastrem = hx.quo_rem(ogx1)  # lastrem always ends up the same
-    # print(hx)
-    # print()
-
 
     cx = encrypt(ogx1)
     lastResult = decrypt(ogx1, cx)
@@ -319,32 +265,27 @@ for index in final_indexes:
     results = mods(results, p2)
     results = mods(results, p2)
 
-    # results = results.replace(" ", "")
-    # expectedDecrypt = expectedDecrypt.replace(" ", "")
-
-    print()
-    print("************************************")
-    print()
-    print(results)
-
-    # print(index)
+    # print()
+    # print("************************************")
+    # print()
     # print(results)
+
     if (results == expectedDecrypt):
         # print('fx:', fx)
         # print('Gx:', Gx)
         # print()
         fx = mods(fx, q2)
         Gx = mods(Gx, q2)
-        # print('fx:', fx)
-        # print('Gx:', Gx)
-        # print()
+        print('fx:', fx)
+        print('Gx:', Gx)
+        print()
 
         gx = mods(R(str(Gx)) * p2, q2)
         fx = mods(R(str(fx)), q2)
 
-        print('fx:', fx)
-        print('gx:', gx)
-        print()
+        # print('fx:', fx)
+        # print('gx:', gx)
+        # print()
 
         pow = _sage_const_0
 
