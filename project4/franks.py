@@ -51,10 +51,10 @@ def mods_coef(b, n):
     if (b%n) > (n//2) and b > 0:
         return (b%n)-n
     elif (b%n) <= (n//2) and b > 0:
-        return b-n
+        return (b%n)-n
     
     if (b%n) > (n//2) and b < 0:
-        return b+n
+        return (b%n)-n
     elif (b%n) <= (n//2) and b < 0:
         return (b%n)
     
@@ -172,7 +172,8 @@ breakingntru_23 = matrix(ZZ, 46, [
  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 31,  0,
  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 31])
 
-res = breakingntru_23.LLL()
+# res = breakingntru_23.LLL()
+res = breakingntru_23.BKZ(algorithm='NTL')
 
 negativeRes = []
 
@@ -196,7 +197,10 @@ for row in res:
     finals[i] = row.norm().n()
     i += 1
 
+# print(finals)
+
 shortest = min(finals.values())
+# print(shortest)
 
 
 
@@ -228,11 +232,10 @@ for number in new_finals.keys():
     final_indexes.append(keys[ind] *2 + 1)
     ind += 1
 
-
-
 for index in final_indexes:
     f_coefficents = negativeRes[index][:N]
     g_coefficents = negativeRes[index][N:]
+    # print(f_coefficents)
 
     degree = 0
 
@@ -242,10 +245,13 @@ for index in final_indexes:
     fx = _sage_const_0
 
     for c in f_coefficents:
+        print(c, end = ", ")
         fx += c*(x**pow)
         pow += _sage_const_1
     pow = _sage_const_0
     Gx = _sage_const_0
+    print()
+
 
     for c in g_coefficents:
         Gx += c*(x**pow)
@@ -262,6 +268,18 @@ for index in final_indexes:
     s1 = _sage_const_1
     s2 = _sage_const_0
 
+    # R = PolynomialRing(GF(q), 'x', names=('x',)); (x,) = R._first_ngens(1)
+    # x1 = "27*x"
+    # x1 = R(x1)
+    # q = _sage_const_6
+    # print(q)
+    # print(x1)
+
+    # # inverse_mod(x1, q)
+    # break
+
+    # print(x2.degree())
+    # break
     while x2.degree() >= _sage_const_0:
         q, newx = x1.quo_rem(x2)
         x1 = x2
@@ -272,15 +290,17 @@ for index in final_indexes:
         t2 = newt
         s1 = s2
         s2 = news
+    # print(type(q))
+    # print(type(x1))
+    # break
 
+    # print(type(q))
+    # print(type(x1))
     x1inverse = inverse_mod(x1, q)
     fqx = t1 * x1inverse
 
     hx = fqx * gx
     lastq, lastrem = hx.quo_rem(ogx1)  # lastrem always ends up the same
-
-
-
 
     cx = encrypt(ogx1)
     lastResult = decrypt(ogx1, cx)
