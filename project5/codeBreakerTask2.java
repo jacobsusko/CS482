@@ -62,7 +62,7 @@ public class codeBreakerTask2 {
                     MessageDigest mDigest = MessageDigest.getInstance("SHA-256");
                     byte[] pwdHashValue = mDigest.digest(aGuessedPassword.getBytes());
                     
-                    if (pwdHashValue[0] == 0x83 && pwdHashValue[1] == 0xC5) {
+                    if (pwdHashValue[0] == (byte) 0xC5 && pwdHashValue[1] == (byte) 0x83) {
                         System.out.println(aGuessedPassword);
                     }
                 }
@@ -70,42 +70,43 @@ public class codeBreakerTask2 {
         }  
             
 
-        // byte[] key = new byte[16];
-        //     for (int i = 0; i < 0xFF; i++) {
-        //         for (int j = 0; j < 0xFF; j++) {
-        //             byte first = (byte) i;
-        //             byte second = (byte) j;
-        //             key[0] = (byte) (first ^ 0x23);
-        //             key[1] = (byte) (second ^ 0x8E);
-        //             key[2] = (byte) (key[1] ^ 0x60);
-        //             key[3] = (byte) (key[0] ^ 0xE1);
-        //             key[4] = (byte) (key[3] ^ 0xD2);
-        //             key[5] = (byte) (key[2] ^ 0x96);
-        //             key[6] = (byte) (key[5] ^ 0x38);
-        //             key[7] = (byte) (key[4] ^ 0xC7);
-        //             key[8] = (byte) (key[7] ^ 0xA5);
-        //             key[9] = (byte) (key[6] ^ 0xC0);
-        //             key[10] = (byte) (key[9] ^ 0x22);
-        //             key[11] = (byte) (key[8] ^ 0x74);
-        //             key[12] = (byte) (key[11] ^ 0x4F);
-        //             key[13] = (byte) (key[10] ^ 0x31);
-        //             key[14] = (byte) (key[13] ^ 0x5B);
-        //             key[15] = (byte) (key[12] ^ 0xCD);
+        byte[] key = new byte[16];
+            for (int i = 0; i < 0xFF; i++) {
+                for (int j = 0; j < 0xFF; j++) {
+                    byte first = (byte) i;
+                    byte second = (byte) j;
+                    key[0] = (byte) (first ^ 0x23);
+                    key[1] = (byte) (second ^ 0x8E);
+                    key[2] = (byte) (key[1] ^ 0x60);
+                    key[3] = (byte) (key[0] ^ 0xE1);
+                    key[4] = (byte) (key[3] ^ 0xD2);
+                    key[5] = (byte) (key[2] ^ 0x96);
+                    key[6] = (byte) (key[5] ^ 0x38);
+                    key[7] = (byte) (key[4] ^ 0xC7);
+                    key[8] = (byte) (key[7] ^ 0xA5);
+                    key[9] = (byte) (key[6] ^ 0xC0);
+                    key[10] = (byte) (key[9] ^ 0x22);
+                    key[11] = (byte) (key[8] ^ 0x74);
+                    key[12] = (byte) (key[11] ^ 0x4F);
+                    key[13] = (byte) (key[10] ^ 0x31);
+                    key[14] = (byte) (key[13] ^ 0x5B);
+                    key[15] = (byte) (key[12] ^ 0xCD);
 
-        //             SecretKeySpec sks = new SecretKeySpec(key, "AES");
-        //             Mac mac  = Mac.getInstance("HmacSHA256");
-        //             mac.init(sks);
-        //             byte[] macValue = mac.doFinal(embeddedCiphertext);
+                    SecretKeySpec sks = new SecretKeySpec(key, "AES");
+                    Mac mac  = Mac.getInstance("HmacSHA256");
+                    mac.init(sks);
+                    byte[] macValue = mac.doFinal(embeddedCiphertext);
                             
-        //             for (int k = 0; k < macValue.length; k++) {
-        //                 if ((k == macValue.length - 1) && (macValue[k] == givenMac[k])) {
-        //                     System.out.printf("(%X %X) ", first, second);
-        //                 } else if (macValue[k] != givenMac[k]) {
-        //                     break;
-        //                 }
-        //             }
-        //         }
-        //     }
+                    for (int k = 0; k < macValue.length; k++) {
+                        if ((k == macValue.length - 1) && (macValue[k] == givenMac[k])) {
+                            // System.out.printf("(%d %d) ", first, second);
+                            System.out.printf("(%X %X) ", first, second);
+                        } else if (macValue[k] != givenMac[k]) {
+                            break;
+                        }
+                    }
+                }
+            }
         
         
 
